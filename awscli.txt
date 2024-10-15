@@ -1,0 +1,12 @@
+sudo apt install awscli
+aws configure
+
+# lists the buckets
+aws --endpoint=http://s3.thetoppers.htb s3 ls
+aws --endpoint=http://s3.thetoppers.htb s3 ls thetoppers.htb
+
+# copy file to bucket
+aws --endpoint=http://s3.thetoppers.htb s3 cp ./common.txt s3://thetoppers.htb/common.txt
+
+# delete file
+aws --endpoint=http://s3.thetoppers.htb s3 rm s3://thetoppers.htb/common.txt

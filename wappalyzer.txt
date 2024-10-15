@@ -1,0 +1,1 @@
+wappalyzer - analysis of web framework

@@ -1,0 +1,8 @@
+https://github.com/danielmiessler/SecLists
+
+curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/common.txt > common.txt
+gobuster dir -u http://$target -w common.txt
+
+curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/DNS/subdomains-top1million-5000.txt > 5000.txt
+
+gobuster vhost -u http://thetoppers.htb/ -w 5000.txt --append-domain
