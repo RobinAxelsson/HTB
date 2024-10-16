@@ -1,0 +1,20 @@
+funnel to unreachable networks (other interfaces)
+
+drop static binaries on target machine from gh
+-nmap
+-chisel
+
+chisel server am
+chisel client tm
+
+socks5 proxy
+config
+proxychains
+
+tell firefox to use socks5
+-extension foxyproxy
+
+procychains xfreerdp - remote desktop windows access
+
+hoaxshell - windows reverse shell
+other port forwarding
