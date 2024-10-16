@@ -8,3 +8,4 @@ two
 three
 EOF
 
+history | grep ssh

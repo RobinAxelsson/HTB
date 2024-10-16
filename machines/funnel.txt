@@ -20,11 +20,15 @@ funnel123#!#
 welcome email has mails
 brute force with hydra
 login: christine   password: funnel123#!#
+ssh christine@$target
+
+check network interfaces with ip
+
 
 scan specific service in ssh
  nc -zv 127.0.0.1 5432
 
-netstat -tlp
+netstat -tlpn (toggle n and no n)
 -l: Show listening sockets.
 -p: Show the process ID and program name.
 localhost:postgresql

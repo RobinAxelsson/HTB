@@ -1,0 +1,3 @@
+netstat -tlp
+-l: Show listening sockets.
+-p: Show the process ID and program name.
