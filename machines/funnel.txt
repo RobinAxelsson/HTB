@@ -22,13 +22,29 @@ brute force with hydra
 login: christine   password: funnel123#!#
 ssh christine@$target
 
-check network interfaces with ip
+check network interfaces with any
+
+netstat -tuln
+netstat -tul
+ss -lt src 127.0.0.1
+ss -ltn
+groups
+sudo -l
 
 
-scan specific service in ssh
- nc -zv 127.0.0.1 5432
-
-netstat -tlpn (toggle n and no n)
--l: Show listening sockets.
--p: Show the process ID and program name.
+localhost:5432
 localhost:postgresql
+
+ ssh -L [local_port]:[remote_host]:[remote_port] [user]@[ssh_server]
+ssh -L 8888:$target:5432 christine@$target
+
+used hacktricks page for this
+\list
+\c secrets
+SELECT * from secrets;
+
+cf277664b1771217d7006acdea006db1
+
+could have done proxychains for dynamic port forwarding
+or use chisel to tunnel over http(s?) instead of tcp
+

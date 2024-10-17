@@ -1,0 +1,8 @@
+The nc (Netcat) "Swiss Army knife" of networking tools.
+network connection
+port scanning 
+tunneling
+file transfer
+reverse shell
+
+

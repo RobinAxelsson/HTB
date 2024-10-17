@@ -1,0 +1,4 @@
+socket statistics
+ss -tul
+ss -tln
+ss -tl

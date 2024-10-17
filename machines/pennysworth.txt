@@ -1,0 +1,26 @@
+PORT     STATE SERVICE VERSION
+8080/tcp open  http    Jetty 9.4.39.v20210325
+|_http-server-header: Jetty(9.4.39.v20210325)
+|_http-title: Site doesn't have a title (text/html;charset=utf-8).
+| http-robots.txt: 1 disallowed entry 
+|_/
+
+8080 Jenkins
+devops tool som azure devops - men inte en molntjänst
+firefox login root/password
+
+weakness xss
+Warnings have been published for the following currently installed components:
+
+Credentials Plugin 2.3.15
+    Reflected XSS vulnerability
+
+build the pipeline
+no new services running something with java
+
+
+cat /var/lib/jenkins/secret.key
+cat /var/lib/jenkins/secret.key.not-so-secret
+ls /var/lib/jenkins/secrets
+
+ifconfig displays network interfaces

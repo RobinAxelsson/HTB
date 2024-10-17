@@ -1,0 +1,4 @@
+https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection
+https://github.com/danielmiessler/SecLists
+https://github.com/swisskyrepo/PayloadsAllTheThings/
+https://github.com/Lifka/hacking-resources
