@@ -18,9 +18,93 @@ Credentials Plugin 2.3.15
 build the pipeline
 no new services running something with java
 
-
 cat /var/lib/jenkins/secret.key
 cat /var/lib/jenkins/secret.key.not-so-secret
 ls /var/lib/jenkins/secrets
 
 ifconfig displays network interfaces
+
+did not find the secrets in those files.
+Rewrote the recon script and got:
+Started by user Administrator
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/Groovy Script
+[Groovy Script] $ /bin/bash /tmp/jenkins15650708303520088370.sh
+--- User ---
+User: root
+--- Groups ---
+uid=0(root) gid=0(root) groups=0(root)
+---- System ----
+NAME="Ubuntu"
+VERSION="20.04.2 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.2 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+#83-Ubuntu SMP Sat May 8 02:35:39 UTC 2021
+---- Ip ----
+ens160: 10.129.76.18
+lo: 127.0.0.1
+---- Services ----
+COMMAND   PID             USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+systemd-r 728  systemd-resolve   13u  IPv4  21031      0t0  TCP 127.0.0.53:53 (LISTEN)
+java      917             root  129u  IPv6  26570      0t0  TCP *:8080 (LISTEN)
+--- DNS ---
+/etc/resolv.conf
+# This file is managed by man:systemd-resolved(8). Do not edit.
+#
+# This is a dynamic resolv.conf file for connecting local clients to the
+# internal DNS stub resolver of systemd-resolved. This file lists all
+# configured search domains.
+#
+# Run "resolvectl status" to see details about the uplink DNS servers
+# currently in use.
+#
+# Third party programs must not access this file directly, but only through the
+# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way,
+# replace this symlink by a static file or a different symlink.
+#
+# See man:systemd-resolved.service(8) for details about the supported modes of
+# operation for /etc/resolv.conf.
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+/etc/hosts
+127.0.0.1 localhost
+127.0.1.1 pennyworth
+
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+---- Commands ----
+curl✓
+docker✓
+ftp✓
+gcc✓
+git✓
+java✓
+make✓
+nc✓
+nmap✓
+node✓
+npm✓
+perl✓
+pip✓
+python✓
+python3✓
+ruby✓
+ssh✓
+tcpdump✓
+wget✓
+Finished: SUCCESS
+
+time for reverse shell
+
