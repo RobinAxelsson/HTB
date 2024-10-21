@@ -2,3 +2,7 @@ https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection
 https://github.com/danielmiessler/SecLists
 https://github.com/swisskyrepo/PayloadsAllTheThings/
 https://github.com/Lifka/hacking-resources
+
+https://book.hacktricks.xyz/pentesting/pentesting-mssql-microsoft-sql-server
+https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet
+https://github.com/int0x33/nc.exe/raw/refs/heads/master/nc64.exe
