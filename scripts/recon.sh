@@ -61,11 +61,11 @@ fi
 echo ---- Commands ----
 
 check_cmd(){
-    for command in "$@"; do
-        if command -v $1 &> /dev/null; then
-            echo "$command""✓"
+    for cmd_name in "$@"; do
+        if command -v "$cmd_name" &> /dev/null; then
+            echo "$cmd_name""✓"
         else
-            echo "$command X"
+            echo "$cmd_name"
         fi
     done
 }
@@ -90,6 +90,8 @@ commands=(
     "ssh"
     "tcpdump"
     "wget"
+    "powershell"
+    "dotnet"
 )
 
 check_cmd "${commands[@]}"
